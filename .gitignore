@@ -33,3 +33,9 @@ build/
 
 ### node and npm ###
 node
+
+
+
+### ??? ###
+lib
+bin
