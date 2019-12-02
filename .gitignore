@@ -33,6 +33,7 @@ build/
 
 ### node and npm ###
 node
+node_modules
 
 
 
