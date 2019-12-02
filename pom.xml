@@ -94,23 +94,23 @@
 								</goals>
 								<phase>generate-resources</phase>
 							</execution>
-							<execution>
-								<id>npm install</id>
-								<goals>
-									<goal>npm</goal>
-								</goals>
+<!--							<execution>-->
+<!--								<id>npm install</id>-->
+<!--								<goals>-->
+<!--									<goal>npm</goal>-->
+<!--								</goals>-->
 
-								<!-- optional: default phase is "generate-resources" -->
-								<phase>generate-resources</phase>
+<!--								&lt;!&ndash; optional: default phase is "generate-resources" &ndash;&gt;-->
+<!--								<phase>generate-resources</phase>-->
 
-								<configuration>
-									<!-- optional: The default argument is actually
-                  "install", so unless you need to run some other npm command,
-                  you can remove this whole <configuration> section.
-                  -->
-									<arguments>install -g @vue/cli</arguments>
-								</configuration>
-							</execution>
+<!--								<configuration>-->
+<!--									&lt;!&ndash; optional: The default argument is actually-->
+<!--                  "install", so unless you need to run some other npm command,-->
+<!--                  you can remove this whole <configuration> section.-->
+<!--                  &ndash;&gt;-->
+<!--									<arguments>install -g @vue/cli</arguments>-->
+<!--								</configuration>-->
+<!--							</execution>-->
 						</executions>
 						<configuration>
 							<nodeVersion>v13.2.0</nodeVersion>
