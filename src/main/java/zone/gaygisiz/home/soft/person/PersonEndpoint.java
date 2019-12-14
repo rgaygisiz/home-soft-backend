@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import zone.gaygisiz.home.soft.web.ApplicationResponse;
 
 @RestController()
-@RequestMapping(path = "personen")
+@RequestMapping(path = "api/personen")
 public class PersonEndpoint {
 
   private final PersonRepository personRepository;
