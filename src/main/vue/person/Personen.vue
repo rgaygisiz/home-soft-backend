@@ -1,12 +1,18 @@
 <template>
   <div class="container">
-    <p>{{text}}</p>
-    <b-table striped hover
-             :items="pagination.items"
-             :field="pagination.fields"
-             :per-page="pagination.perPage"
-             :total-rows="pagination.items.length"
-             :current-page="pagination.currentPage"></b-table>
+    <h1>Personen</h1>
+    <hr>
+    <b-table
+      show-empty
+      hover
+      :items="pagination.items"
+      :field="pagination.fields"
+      :per-page="pagination.perPage"
+      :total-rows="pagination.items.length"
+      :current-page="pagination.currentPage">
+
+
+    </b-table>
     <b-pagination
       v-model="pagination.currentPage"
       :total-rows="pagination.items.length"
@@ -59,19 +65,25 @@
         }
       }
     },
-    created() {
+    beforeCreate() {
       this.$http.get("api/personen")
       .then(
         (payload) => {
           console.log(payload.json());
-          return payload.json();
+          let result = payload.json();
+          return result;
         },
         (error) => {
           console.log(error)
+          let result = payload.json();
+          return result;
         }
       ).then((payload) => {
+        if(payload.data != undefined){
+          console.log(payload);
+          this.pagination.items = payload.data;
+        }
         console.log(payload)
-        this.pagination.items = payload.data;
       });
     }
   }

@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/main/vue/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -81,7 +81,7 @@ module.exports = {
     overlay: true,
     port: 8081,
     proxy: {
-      '/api': 'http://localhost:8080/test'
+      '/api': 'http://localhost:8080'
     }
   },
   performance: {
