@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <personen></personen>
         <br>
         <person-editor></person-editor>
@@ -8,8 +8,8 @@
 
 
 <script>
-  import Personen from './Personen'
-  import PersonEditor from './PersonEditor'
+  import Personen from './Personen';
+  import PersonEditor from './PersonEditor';
 
 
   export default {

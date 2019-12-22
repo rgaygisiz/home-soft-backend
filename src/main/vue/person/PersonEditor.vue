@@ -1,10 +1,7 @@
 <template>
   <div class="container">
-    <h1>
-      Person Editor
-    </h1>
+    <h1>Person Editor</h1>
     <form action="">
-      <hr>
       <div class="row">
         <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <div class="form-group">
@@ -52,22 +49,6 @@
         </div>
       </div>
     </form>
-    <hr>
-    <div class="row">
-      <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>Your Data</h4>
-          </div>
-          <div class="panel-body">
-            <p>Vorname: {{ person.firstName }}</p>
-            <p>Nachname: {{ person.lastName }}</p>
-            <p>Geburtdatum: {{ person.birthday }}</p>
-            <p>Geburtsort: {{ person.birthplace }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -89,8 +70,7 @@
     data () {
       return {
         language: de,
-        person: {
-        }
+        person: {}
       }
     },
     methods:{

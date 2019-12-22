@@ -1,5 +1,4 @@
-package zone.gaygisiz.home.soft.person;
-
+package zone.gaygisiz.home.soft.banking.bank;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,34 +15,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import zone.gaygisiz.home.soft.banking.konto.BankverbindungDao;
 import zone.gaygisiz.home.soft.web.ApplicationResponse;
 
 @RestController()
-@RequestMapping(path = "api/personen")
-public class PersonEndpoint {
+@RequestMapping(path = "/api/banken")
+public class BankEndpoint {
 
-  private final PersonRepository personRepository;
+  private BankRepository bankRepository;
 
   @Autowired
-  public PersonEndpoint(PersonRepository personRepository) {
-    this.personRepository = personRepository;
+  public BankEndpoint(BankRepository bankRepository) {
+    this.bankRepository = bankRepository;
   }
 
   @PostMapping
-  public ResponseEntity<ApplicationResponse<Person>> savePerson(@RequestBody Person person) {
-    Person savedPerson = personRepository.save(person);
-    return ResponseEntity.status(HttpStatus.CREATED).body(ApplicationResponse.data(savedPerson));
+  public ResponseEntity<ApplicationResponse> saveBank(@RequestBody Bank bank){
+    Bank savedBank = bankRepository.save(bank);
+    return ResponseEntity.status(HttpStatus.CREATED).body(ApplicationResponse.data(savedBank));
   }
 
   @GetMapping
-  public ResponseEntity<ApplicationResponse<List<Person>>> loadPersonen() {
-    List<Person> results = StreamSupport.stream(personRepository.findAll().spliterator(), false)
-        .collect(Collectors.toList());
+  public ResponseEntity<ApplicationResponse<List<Bank>>> loadBank() {
+    List<Bank> results = StreamSupport
+      .stream(bankRepository.findAll().spliterator(), false)
+      .collect(Collectors.toList());
     return ResponseEntity.ok(ApplicationResponse.data(results));
   }
 
-  @GetMapping(path = "{id}")
-  public ResponseEntity<ApplicationResponse<Person>> loadPerson(@PathVariable Long id){
+/*  @GetMapping(path = "{id}")
+  public ResponseEntity<ApplicationResponse<Person>> savePerson(@PathVariable Long id){
     Optional<Person> person = personRepository.findById(id);
     if (person.isPresent()){
       return ResponseEntity.ok(ApplicationResponse.data(person.get()));
@@ -63,10 +64,8 @@ public class PersonEndpoint {
   @DeleteMapping()
   public ResponseEntity<ApplicationResponse> deletePerson(@RequestParam List<Long> ids){
     ids.stream()
-        .filter(personRepository::existsById)
-        .forEach(personRepository::deleteById);
+      .filter(personRepository::existsById)
+      .forEach(personRepository::deleteById);
     return ResponseEntity.ok(ApplicationResponse.data());
-  }
-
-
+  }*/
 }

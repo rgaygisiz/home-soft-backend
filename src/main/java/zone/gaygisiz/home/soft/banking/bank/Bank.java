@@ -16,4 +16,7 @@ public class Bank {
 
     @Column(unique = true)
     private String bic;
+
+    @Column(unique = true)
+    private String blz;
 }

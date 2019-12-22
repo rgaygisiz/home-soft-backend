@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <h1>Personen</h1>
+    <h1>Banken</h1>
     <hr>
     <b-table
       show-empty
@@ -11,14 +11,7 @@
       :total-rows="pagination.items.length"
       :current-page="pagination.currentPage">
 
-
     </b-table>
-    <b-pagination
-      v-model="pagination.currentPage"
-      :total-rows="pagination.items.length"
-      :per-page="pagination.perPage"
-      aria-controls="my-table"
-    ></b-pagination>
   </div>
 </template>
 
@@ -28,44 +21,34 @@
   Vue.use(VueResource);
 
   export default {
-    data ()  {
+    data () {
       return {
-        text: "Hello World",
         pagination: {
           perPage: 5,
           currentPage: 1,
           items: [],
           fields: [
             {
-              key: 'firstName',
-              label: 'Vorname',
+              key: 'name',
+              label: 'Bank Name',
               sortable: true
             },
             {
-              key: 'lastName',
-              label: 'Nachname',
+              key: 'bic',
+              label: 'BIC',
               sortable: false
             },
             {
-              key: 'birthday',
-              label: 'Geburtsdatum',
+              key: 'blz',
+              label: 'BLZ',
               sortable: true,
-              // Variant applies to the whole column, including the header and footer
-              variant: 'danger'
-            },
-            {
-              key: 'Geburtsort',
-              label: 'Person age',
-              sortable: true,
-              // Variant applies to the whole column, including the header and footer
-              variant: 'danger'
             }
           ],
         }
       }
     },
     beforeCreate() {
-      this.$http.get("api/personen")
+      this.$http.get("api/banken")
       .then(
         (payload) => {
           console.log(payload.json());
@@ -86,4 +69,5 @@
       });
     }
   }
+
 </script>
