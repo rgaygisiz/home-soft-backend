@@ -4,6 +4,9 @@ import {routes} from './core/routing/routes';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+
+import {store} from './core/store/store';
+
 import 'bootstrap-scss/bootstrap.scss';
 import 'bootstrap-scss/bootstrap-grid.scss';
 
@@ -26,5 +29,6 @@ Vue.use(VueFilterDateFormat);
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
-})
+});

@@ -45,7 +45,7 @@
         <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <button
             class="btn btn-primary"
-            @click.prevent="speicherPerson">Speichern</button>
+            @click.prevent="savePerson">Speichern</button>
         </div>
       </div>
     </form>
@@ -56,35 +56,31 @@
   //components
   import Vue from 'vue'
   import VueResource from 'vue-resource'
-  Vue.use(VueResource);
+  import { mapGetters, mapActions } from 'vuex';
 
+  Vue.use(VueResource);
 
   //ui-components
   import Datepicker from 'vuejs-datepicker'
   Vue.component('datepicker', Datepicker);
-
 
   import {de} from 'vuejs-datepicker/dist/locale'
 
   export default {
     data () {
       return {
-        language: de,
-        person: {}
+        language: de
       }
     },
+    computed: {
+      ...mapGetters([
+        'person'
+      ]),
+    },
     methods:{
-      speicherPerson(){
-        this.$http.post('api/personen',this.person)
-        .then(
-          (a) => {
-            console.log(a)
-          },
-          (b) => {
-            console.log(b)
-          }
-        )
-      }
+      ...mapActions([
+        'savePerson'
+      ])
     }
   }
 </script>

@@ -4,18 +4,34 @@
     <hr>
     <b-table
       show-empty
+      :empty-text="personen.emptyText"
+      striped
       hover
-      :items="pagination.items"
-      :field="pagination.fields"
+      :busy="isPersonenLoading"
+      :items="personen.items"
+      :fields="pagination.fields"
       :per-page="pagination.perPage"
-      :total-rows="pagination.items.length"
+      :total-rows="personen.items.length"
       :current-page="pagination.currentPage">
+      <template v-slot:table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong> Lade...</strong>
+        </div>
+      </template>
 
-
+      <template v-slot:cell(actions)="row">
+        <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
+          Info modal
+        </b-button>
+        <b-button size="sm" @click="row.toggleDetails">
+          {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+        </b-button>
+      </template>
     </b-table>
     <b-pagination
       v-model="pagination.currentPage"
-      :total-rows="pagination.items.length"
+      :total-rows="personen.items.length"
       :per-page="pagination.perPage"
       aria-controls="my-table"
     ></b-pagination>
@@ -23,9 +39,8 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VueResource from 'vue-resource'
-  Vue.use(VueResource);
+  import { loadState } from '../core/store/store';
+  import { mapGetters } from 'vuex';
 
   export default {
     data ()  {
@@ -34,7 +49,6 @@
         pagination: {
           perPage: 5,
           currentPage: 1,
-          items: [],
           fields: [
             {
               key: 'firstName',
@@ -44,46 +58,28 @@
             {
               key: 'lastName',
               label: 'Nachname',
-              sortable: false
+              sortable: true
             },
             {
               key: 'birthday',
               label: 'Geburtsdatum',
-              sortable: true,
-              // Variant applies to the whole column, including the header and footer
-              variant: 'danger'
+              sortable: false
             },
             {
-              key: 'Geburtsort',
-              label: 'Person age',
-              sortable: true,
-              // Variant applies to the whole column, including the header and footer
-              variant: 'danger'
-            }
+              key: 'birthplace',
+              label: 'Geburtsort',
+              sortable: false
+            },
+            { key: 'actions', label: 'Aktions' }
           ],
         }
       }
     },
-    beforeCreate() {
-      this.$http.get("api/personen")
-      .then(
-        (payload) => {
-          console.log(payload.json());
-          let result = payload.json();
-          return result;
-        },
-        (error) => {
-          console.log(error)
-          let result = payload.json();
-          return result;
-        }
-      ).then((payload) => {
-        if(payload.data != undefined){
-          console.log(payload);
-          this.pagination.items = payload.data;
-        }
-        console.log(payload)
-      });
+    computed: {
+      ...mapGetters([
+        'personen',
+        'isPersonenLoading'
+      ])
     }
   }
 </script>
