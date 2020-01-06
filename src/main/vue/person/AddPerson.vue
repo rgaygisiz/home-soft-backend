@@ -1,16 +1,15 @@
 <template>
-  <div class="container">
-    <h1>Person Editor</h1>
+  <b-container>
     <form action="">
-      <div class="row">
-        <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
+      <b-row>
+        <div class="col-xs12 col-sm-12 col-md-13">
           <div class="form-group">
             <label for="firstName">Vorname</label>
             <input
               type="text"
               id="firstName"
               class="form-control"
-              v-model="person.firstName">
+              v-model="newPerson.firstName">
           </div>
           <div class="form-group">
             <label for="lastName">Nachname</label>
@@ -18,7 +17,7 @@
               type="text"
               id="lastName"
               class="form-control"
-              v-model="person.lastName">
+              v-model="newPerson.lastName">
           </div>
           <div class="form-group">
             <label for="birthday">Geburtsdatum</label>
@@ -29,7 +28,7 @@
               format="dd.MM.yyyy"
               input-class="form-control"
               :bootstrap-styling="true"
-              v-model="person.birthday"></datepicker>
+              v-model="newPerson.birthday"></datepicker>
           </div>
           <div class="form-group">
             <label for="birtplace">Geburtsort</label>
@@ -37,19 +36,12 @@
               type="text"
               id="birtplace"
               class="form-control"
-              v-model="person.birthplace">
+              v-model="newPerson.birthplace">
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <button
-            class="btn btn-primary"
-            @click.prevent="savePerson">Speichern</button>
-        </div>
-      </div>
+      </b-row>
     </form>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -74,7 +66,7 @@
     },
     computed: {
       ...mapGetters([
-        'person'
+        'newPerson'
       ]),
     },
     methods:{

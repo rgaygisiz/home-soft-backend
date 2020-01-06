@@ -1,20 +1,18 @@
 <template>
     <div >
-        <personen></personen>
-        <br>
-        <person-editor></person-editor>
+      <h1>Personen</h1>
+      <hr>
+      <personen></personen>
     </div>
 </template>
 
 
 <script>
   import Personen from './Personen';
-  import PersonEditor from './PersonEditor';
 
   export default {
    components:{
-     Personen,
-     PersonEditor
+     Personen
    },
     beforeCreate() {
       this.$store.dispatch('loadPersonen');
