@@ -6,10 +6,10 @@ import VueRouter from 'vue-router';
 
 
 import {store} from './core/store/store';
+import {CONFIG} from './config';
 
 import 'bootstrap-scss/bootstrap.scss';
 import 'bootstrap-scss/bootstrap-grid.scss';
-
 
 
 Vue.use(BootstrapVue);
@@ -20,7 +20,7 @@ const  router = new VueRouter({
   mode: 'history'
 });
 
-Vue.url.options.root="http://localhost:8081";
+Vue.url.options.root=CONFIG.host;
 
 //filters
 import VueFilterDateFormat from 'vue-filter-date-format'

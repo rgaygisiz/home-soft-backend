@@ -21,12 +21,7 @@
           </template>
 
           <template v-slot:cell(actions)="row">
-            <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-              Info modal
-            </b-button>
-            <b-button size="sm" @click="row.toggleDetails">
-              {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-            </b-button>
+            <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">Löschen</b-button>
           </template>
         </b-table>
       </b-col>
@@ -111,7 +106,10 @@
       ]),
       ...mapActions([
         'savePerson'
-      ])
+      ]),
+      info(item, index, event){
+       this.$store.dispatch("deletePerson", item.id);
+      }
     }
   }
 </script>

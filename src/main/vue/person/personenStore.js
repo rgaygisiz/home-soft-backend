@@ -1,5 +1,7 @@
 import {LOADING_STATE} from "../core/store/loadingState";
 import Vue from "vue";
+import {CONFIG} from './../config';
+
 
 const state = {
   personenState: {
@@ -58,13 +60,9 @@ const actions = {
     context.commit('setLoading', LOADING_STATE.LOADING);
     Vue.http.get("api/personen")
     .then(
-      (payload) => {
-        return payload.json();
-      },
-      (error) => {
-        return error.json();
-      }
-    ).then(
+      payload => payload.json(),
+      error => error.json())
+    .then(
       (payload) => {
         if(Array.isArray(payload.data)){
           context.commit('setPersonen', payload.data);
@@ -79,18 +77,17 @@ const actions = {
   },
   savePerson(context){
     Vue.http.post('api/personen', context.getters.newPerson)
-    .then(
-      (payload) => {
-        console.log("Success save call:", payload);
-        return payload.json();
-      },
-      (payload) => {
-        console.log("Faild Call", payload)
-      }
-    )
+    .then( response => response.json(), console.log)
     .then((payload) => {
       context.commit('addNewPerson', payload.data);
     })
+  },
+    deletePerson(context, ids){
+    if( ids ){
+      Vue.http.delete('/api/personen/' + ids)
+        .then(response => response.json(), console.log)
+        .then(value => context.dispatch('loadPersonen'));
+    }
   }
 };
 
