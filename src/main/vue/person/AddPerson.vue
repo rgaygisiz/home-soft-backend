@@ -3,23 +3,23 @@
     <form action="">
       <b-row>
         <div class="col-xs12 col-sm-12 col-md-13">
-          <div class="form-group">
+          <b-form-group>
             <label for="firstName">Vorname</label>
             <input
               type="text"
               id="firstName"
               class="form-control"
               v-model="newPerson.firstName">
-          </div>
-          <div class="form-group">
+          </b-form-group>
+          <b-form-group>
             <label for="lastName">Nachname</label>
             <input
               type="text"
               id="lastName"
               class="form-control"
               v-model="newPerson.lastName">
-          </div>
-          <div class="form-group">
+          </b-form-group>
+          <b-form-group>
             <label for="birthday">Geburtsdatum</label>
             <datepicker
               id="birthday"
@@ -29,15 +29,15 @@
               input-class="form-control"
               :bootstrap-styling="true"
               v-model="newPerson.birthday"></datepicker>
-          </div>
-          <div class="form-group">
+          </b-form-group>
+          <b-form-group>
             <label for="birtplace">Geburtsort</label>
             <input
               type="text"
               id="birtplace"
               class="form-control"
               v-model="newPerson.birthplace">
-          </div>
+          </b-form-group>
         </div>
       </b-row>
     </form>

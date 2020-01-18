@@ -1,58 +1,53 @@
 <template>
-    <div class="container">
-      <h1>Banking</h1>
+    <b-container>
       <form action="">
-        <div class="row">
-          <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <div class="form-group">
+        <b-row>
+          <div class="col-xs12 col-sm-12 col-md-12">
+            <b-form-group>
               <label for="bankName">Bank Name</label>
               <input
                 type="text"
                 id="bankName"
                 class="form-control"
-                v-model="bank.name">
-            </div>
-            <div class="form-group">
+                v-model="newBank.name">
+            </b-form-group>
+            <b-form-group>
               <label for="bic">BIC</label>
               <input
                 type="text"
                 id="bic"
                 class="form-control"
-                v-model="bank.bic">
-            </div>
-            <div class="form-group">
+                v-model="newBank.bic">
+            </b-form-group>
+            <b-form-group>
               <label for="blz">BLZ</label>
               <input
                 type="text"
                 id="blz"
                 class="form-control"
-                v-model="bank.blz">
-            </div>
+                v-model="newBank.blz">
+            </b-form-group>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-xs12 col-sm8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <button
-              class="btn btn-primary"
-              @click.prevent="speicherBank">Speichern</button>
-          </div>
-        </div>
-
+        </b-row>
       </form>
-    </div>
+    </b-container>
 </template>
 
 <script>
   //components
   import Vue from 'vue'
   import VueResource from 'vue-resource'
+  import { mapGetters } from 'vuex';
   Vue.use(VueResource);
 
   export default {
     data (){
-      return {
-        bank: {}
-      }
+      return {}
+    },
+    computed: {
+      ...mapGetters([
+        'newBank'
+      ])
     },
     methods:{
       speicherBank(){

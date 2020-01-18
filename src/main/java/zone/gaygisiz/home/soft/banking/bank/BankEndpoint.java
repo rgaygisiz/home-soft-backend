@@ -30,9 +30,10 @@ public class BankEndpoint {
   }
 
   @PostMapping
-  public ResponseEntity<ApplicationResponse> saveBank(@RequestBody Bank bank){
+  public ResponseEntity<ApplicationResponse> saveBank(@RequestBody Bank bank) {
     Bank savedBank = bankRepository.save(bank);
-    return ResponseEntity.status(HttpStatus.CREATED).body(ApplicationResponse.data(savedBank));
+    return ResponseEntity.status(HttpStatus.CREATED)
+      .body(ApplicationResponse.data(savedBank));
   }
 
   @GetMapping
@@ -43,24 +44,15 @@ public class BankEndpoint {
     return ResponseEntity.ok(ApplicationResponse.data(results));
   }
 
-/*  @GetMapping(path = "{id}")
-  public ResponseEntity<ApplicationResponse<Person>> savePerson(@PathVariable Long id){
-    Optional<Person> person = personRepository.findById(id);
-    if (person.isPresent()){
-      return ResponseEntity.ok(ApplicationResponse.data(person.get()));
-    }else{
-      return ResponseEntity.notFound().build();
-    }
-  }
-
   @DeleteMapping(path = "{id}")
-  public ResponseEntity<ApplicationResponse> deletePerson(@PathVariable Long id){
-    if(personRepository.existsById(id)){
-      personRepository.deleteById(id);
+  public ResponseEntity<ApplicationResponse> deleteBank(@PathVariable Long id){
+    if(bankRepository.existsById(id)){
+      bankRepository.deleteById(id);
     }
     return ResponseEntity.ok(ApplicationResponse.data());
   }
 
+/*
   @DeleteMapping()
   public ResponseEntity<ApplicationResponse> deletePerson(@RequestParam List<Long> ids){
     ids.stream()

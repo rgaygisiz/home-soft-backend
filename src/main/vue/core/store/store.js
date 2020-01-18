@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 //import { LOADING_STATE } from './loadingState';
 import personenState from '../../person/personenStore';
+import bankenState from '../../bank/bankenStore';
 
 Vue.use(Vuex);
 
@@ -10,13 +11,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   debug: true,
   modules:{
-    personenState
-  },
-  state: {
-    personEditor: {
-      person: {},
-      readable: false
-    }
+    personenState,
+    bankenState
   },
   getters: {},
   mutations: {},

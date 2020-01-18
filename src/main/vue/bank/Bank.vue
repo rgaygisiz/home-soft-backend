@@ -1,20 +1,18 @@
 <template>
   <div>
+    <h1>Banken</h1>
+    <hr>
     <banken></banken>
-    <br>
-    <bank-editor></bank-editor>
   </div>
 </template>
 
 
 <script>
   import Banken from './Banken';
-  import BankEditor from './BankEditor';
 
   export default {
     components: {
-      Banken,
-      BankEditor
+      Banken
     }
   }
 </script>

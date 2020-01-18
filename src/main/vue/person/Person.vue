@@ -1,9 +1,9 @@
 <template>
-    <div >
-      <h1>Personen</h1>
-      <hr>
-      <personen></personen>
-    </div>
+  <div>
+    <h1>Personen</h1>
+    <hr>
+    <personen></personen>
+  </div>
 </template>
 
 
@@ -11,9 +11,9 @@
   import Personen from './Personen';
 
   export default {
-   components:{
-     Personen
-   },
+    components: {
+      Personen
+    },
     beforeCreate() {
       this.$store.dispatch('loadPersonen');
     }

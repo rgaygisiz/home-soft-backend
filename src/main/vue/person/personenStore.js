@@ -1,6 +1,5 @@
 import {LOADING_STATE} from "../core/store/loadingState";
 import Vue from "vue";
-import {CONFIG} from './../config';
 
 
 const state = {
@@ -50,7 +49,7 @@ const mutations= {
       state.personenState.items.push(person);
     }
   },
-  resetModal(state){
+  resetNewPrerson(state){
     state.personenState.newPerson = {};
   }
 };
