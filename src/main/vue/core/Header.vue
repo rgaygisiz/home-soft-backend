@@ -1,16 +1,39 @@
 <template>
-  <ul class="nav nav-pills">
-    <li><b-button variant="primary" to="/">Home</b-button></li>
-    <li><b-button to="/banking">Banking</b-button></li>
-    <li><b-button to="/personen">Personen</b-button></li>
-  </ul>
+  <b-container>
+    <b-row>
+      <b-col>
+        <ul class="nav nav-pills">
+          <li v-for="route in $router.options.routes">
+            <b-button
+              v-if="route.mainMenueItem"
+              pill
+              variant="outline-primary"
+              size="sm"
+              :to="route.path">{{route.name}}</b-button>
+          </li>
+        </ul>
+      </b-col>
+      <b-col>
+        <b-button
+          pill
+          variant="outline-primary"
+          size="sm"
+          :to="loginRoute.path">{{loginRoute.name}}</b-button>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
   import 'bootstrap-scss/bootstrap.scss';
   import 'bootstrap-scss/bootstrap-grid.scss';
+  import {logingView} from './routing/routes';
 
   export default{
-
+    computed:{
+      loginRoute(){
+        return logingView;
+      }
+    }
   }
 </script>

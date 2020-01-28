@@ -1,7 +1,7 @@
 import {LOADING_STATE} from "../core/store/loadingState";
 import Vue from "vue";
 
-const state = {
+const bankState = {
   bankenState: {
     loadingState: LOADING_STATE.UNUSED,
     items: [],
@@ -86,7 +86,7 @@ const actions = {
 };
 
 export default {
-  state,
+  state: bankState,
   getters,
   mutations,
   actions

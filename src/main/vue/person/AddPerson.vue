@@ -21,14 +21,12 @@
           </b-form-group>
           <b-form-group>
             <label for="birthday">Geburtsdatum</label>
-            <datepicker
+            <b-form-input
               id="birthday"
-              placeholder="Bitte wählen"
-              :language="language"
-              format="dd.MM.yyyy"
-              input-class="form-control"
-              :bootstrap-styling="true"
-              v-model="newPerson.birthday"></datepicker>
+              v-model="newPerson.birthday"
+              required
+              type="date">
+            </b-form-input>
           </b-form-group>
           <b-form-group>
             <label for="birtplace">Geburtsort</label>
