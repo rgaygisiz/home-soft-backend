@@ -1,6 +1,5 @@
 <template>
   <b-container>
-    <h1>Welcome Home</h1>
-    <h3>Merhaba</h3>
+    <h1>Page not found</h1>
   </b-container>
 </template>

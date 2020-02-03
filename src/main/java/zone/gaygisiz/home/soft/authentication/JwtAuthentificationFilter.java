@@ -1,7 +1,6 @@
 package zone.gaygisiz.home.soft.authentication;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import javax.servlet.FilterChain;
@@ -34,6 +33,7 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
     FilterChain filterChain) throws ServletException, IOException {
     String authorization = request.getHeader(AUTHORIZATION);
 
+
     Optional<String> possibleJwt = Optional.ofNullable(authorization)
       .filter(s -> s.startsWith(BEARER))
       .map(s -> s.replace(BEARER, ""))
@@ -43,12 +43,12 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
 
     if (user.filter(StringUtils::hasText).isPresent() &&
       Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(user.get());
-      if (jwtOperator.isValidToken(possibleJwt.get(), userDetails)) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-          userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-      }
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.get());
+        if (jwtOperator.isValidToken(possibleJwt.get(), userDetails)) {
+          UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+            userDetails, null, userDetails.getAuthorities());
+          SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
     }
     filterChain.doFilter(request, response);
   }

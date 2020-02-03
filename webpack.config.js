@@ -1,10 +1,21 @@
 var path = require('path')
 var webpack = require('webpack')
 
+
+var appconfig = {
+  buildTarget(){
+    if(process.env.NODE_ENV === 'production'){
+      return './src/main/resources/static';
+    }else{
+      return './dist';
+    }
+  }
+};
+
 module.exports = {
   entry: './src/main/vue/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, appconfig.buildTarget()),
     publicPath: '/dist/',
     filename: 'build.js'
   },
@@ -109,4 +120,5 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
+
 }

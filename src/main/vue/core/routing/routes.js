@@ -2,6 +2,7 @@ import Bank from '../../bank/Bank.vue';
 import Home from '../../home/Home.vue';
 import Person from '../../person/Person.vue';
 import Login from '../../login/Login.vue';
+import Notfound from '../../notFound/NotFound.vue';
 
 import SessionManager from '../../login/SessionManager';
 
@@ -43,9 +44,14 @@ let personView = { path: '/personen',
   mainMenueItem: true,
   beforeEnter};
 
+let notFoundView = { path: '/notFound',
+  component: Notfound,
+  name: 'Not Found'};
+
 export const routes = [
   homeView,
   logingView,
   bankingView,
-  personView
+  personView,
+  notFoundView
 ];
