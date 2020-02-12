@@ -5,15 +5,11 @@ import Login from '../../login/Login.vue';
 import Notfound from '../../notFound/NotFound.vue';
 import {store} from '../store/store';
 
-let notProtected = new Set([logingView, homeView]);
-
 let beforeEnter = (to, from, next) => {
-  if(notProtected.has(to)){
+  if( to.meta && to.meta.requiresAuth && !store.getters.isLogin() ){
+    next('login?returnTo=' + to.path);
+  }else{
     next();
-  }else if(store.getters.isLogin){
-      next();
-  } else {
-      next('login?returnTo=' + to.path);
   }
 };
 
@@ -35,6 +31,7 @@ let bankingView = {
   component: Bank,
   name: 'Banken',
   mainMenueItem: true,
+  meta: { requiresAuth: true},
   beforeEnter
 };
 
@@ -43,6 +40,7 @@ let personView = {
   component: Person,
   name: 'Personen',
   mainMenueItem: true,
+  meta: { requiresAuth: true},
   beforeEnter};
 
 let notFoundView = {

@@ -11,10 +11,10 @@ const state = {
 
 
 const getters = {
-  isLogin: state => {
+  isLogin: state => () => {
     return typeof state.session.token !== 'undefined';
   },
-  getToken: state => {
+  getToken: state => () => {
     return state.session.token;
   },
   getLoginLabel: state => {
@@ -45,6 +45,8 @@ const actions = {
         }else{
           Vue.router.push(homeView);
         }
+      }else {
+        context.commit('mutateLogout');
       }
     })
   },

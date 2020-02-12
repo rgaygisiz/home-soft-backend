@@ -24,10 +24,11 @@ Vue.router = router;
 
 Vue.url.options.root=CONFIG.host;
 Vue.http.interceptors.push((request, next) => {
-  if(store.getters.isLogin){
-    request.headers.set('Authorization', 'Bearer ' + store.getters.getToken)
-  }
+  if(store.getters.isLogin()){
+    request.headers.set('Authorization', 'Bearer ' + store.getters.getToken())
+  }else{
     next();
+  }
 });
 
 //filters

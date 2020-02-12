@@ -27,7 +27,7 @@
   import 'bootstrap-scss/bootstrap.scss';
   import 'bootstrap-scss/bootstrap-grid.scss';
   import { mapGetters, mapActions } from 'vuex';
-  import { logingView, homeView} from './../core/routing/routes';
+  import { logingView } from './../core/routing/routes';
 
 
   export default{
@@ -42,15 +42,14 @@
         'logout'
       ]),
       loginHandling(){
-        if ( this.isLogin ){
+        console.log("Header.isLogin()", this.isLogin())
+        if ( this.isLogin() ){
           this.logout();
           if( !Object.is(this.$route.path, logingView.path) ){
             this.$router.push(logingView);
           }
         }else if( !Object.is(this.$route.path, logingView.path) ){
           this.$router.push(logingView);
-        }else{
-          this.$router.push(homeView);
         }
       }
     }
