@@ -15,10 +15,9 @@
       </b-col>
       <b-col>
         <b-button
-          pill
+          pill v-on:click="loginHandling"
           variant="outline-primary"
-          size="sm"
-          :to="loginRoute.path">{{loginRoute.name}}</b-button>
+          size="sm" >{{ getLoginLabel }}</b-button>
       </b-col>
     </b-row>
   </b-container>
@@ -27,12 +26,32 @@
 <script>
   import 'bootstrap-scss/bootstrap.scss';
   import 'bootstrap-scss/bootstrap-grid.scss';
-  import {logingView} from './routing/routes';
+  import { mapGetters, mapActions } from 'vuex';
+  import { logingView, homeView} from './../core/routing/routes';
+
 
   export default{
-    computed:{
-      loginRoute(){
-        return logingView;
+    computed: {
+      ...mapGetters([
+        'getLoginLabel',
+        'isLogin'
+      ])
+    },
+    methods: {
+      ...mapActions([
+        'logout'
+      ]),
+      loginHandling(){
+        if ( this.isLogin ){
+          this.logout();
+          if( !Object.is(this.$route.path, logingView.path) ){
+            this.$router.push(logingView);
+          }
+        }else if( !Object.is(this.$route.path, logingView.path) ){
+          this.$router.push(logingView);
+        }else{
+          this.$router.push(homeView);
+        }
       }
     }
   }

@@ -37,8 +37,6 @@
 
 
 <script>
-  import {mapMutations, mapGetters} from 'vuex';
-
   export default {
     data() {
       return {
@@ -46,19 +44,8 @@
       }
     },
     methods:{
-      ...mapGetters(['getToken']),
-      ...mapMutations(['setToken']),
       onLogin(){
-        this.$http.post('/api/authentification', this.user)
-        .then( response => response.json(), console.log)
-        .then((payload) => {
-          if( payload && payload.jwt ){
-            this.setToken(payload.jwt);
-            if(this.$route.query.returnTo){
-              this.$router.push(this.$route.query.returnTo);
-            }
-          }
-        })
+        this.$store.dispatch('login',this.user);
       }
     }
   }

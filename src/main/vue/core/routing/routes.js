@@ -3,23 +3,22 @@ import Home from '../../home/Home.vue';
 import Person from '../../person/Person.vue';
 import Login from '../../login/Login.vue';
 import Notfound from '../../notFound/NotFound.vue';
-
-import SessionManager from '../../login/SessionManager';
+import {store} from '../store/store';
 
 let notProtected = new Set([logingView, homeView]);
 
 let beforeEnter = (to, from, next) => {
   if(notProtected.has(to)){
     next();
-  }else if(SessionManager.hasToken()){
+  }else if(store.getters.isLogin){
       next();
   } else {
       next('login?returnTo=' + to.path);
   }
 };
 
-let homeView = {
-  path: '/',
+export const homeView = {
+  path: '/home',
   component: Home,
   name: 'Home',
   mainMenueItem: true
@@ -38,17 +37,26 @@ let bankingView = {
   mainMenueItem: true,
   beforeEnter
 };
-let personView = { path: '/personen',
+
+let personView = {
+  path: '/personen',
   component: Person,
   name: 'Personen',
   mainMenueItem: true,
   beforeEnter};
 
-let notFoundView = { path: '/notFound',
+let notFoundView = {
+  path: '/notFound',
   component: Notfound,
   name: 'Not Found'};
 
+let root = {
+  path: '/',
+  redirect: homeView.path};
+
+
 export const routes = [
+  root,
   homeView,
   logingView,
   bankingView,

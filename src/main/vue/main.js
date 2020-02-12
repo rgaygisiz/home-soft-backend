@@ -20,17 +20,15 @@ const  router = new VueRouter({
   mode: 'history',
   saveScrollPosition: true
 });
+Vue.router = router;
 
 Vue.url.options.root=CONFIG.host;
 Vue.http.interceptors.push((request, next) => {
-  if(store.getters.getToken){
+  if(store.getters.isLogin){
     request.headers.set('Authorization', 'Bearer ' + store.getters.getToken)
-    next();
-  } else {
-    next(false)
-    console.log("login Fail")
   }
-})
+    next();
+});
 
 //filters
 import VueFilterDateFormat from 'vue-filter-date-format'
