@@ -8,6 +8,7 @@
             label="Benutzer oder Email"
             label-for="accountId">
             <b-form-input
+              autocomplete="off"
               id="accountId"
               v-model="user.username"
               required

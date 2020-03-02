@@ -1,5 +1,6 @@
 import {LOADING_STATE} from "../core/store/loadingState";
 import Vue from "vue";
+import {CONFIG} from '../config';
 
 const bankState = {
   bankenState: {
@@ -30,7 +31,7 @@ const mutations = {
   },
   updateBankEmptyText(state, successfullLoaded){
     if(successfullLoaded){
-      state.bankenState.emptyText = 'Leer';
+      state.bankenState.emptyText = successfullLoaded;
     } else {
       state.bankenState.emptyText = 'Laden fehlgeschlagen';
     }
@@ -51,23 +52,19 @@ const mutations = {
 };
 
 const actions = {
-  loadBanken(context) {
+  async loadBanken(context) {
     context.commit('setBankenLadeState', LOADING_STATE.LOADING);
-    Vue.http.get("api/banken")
-    .then(
-      payload => payload.json(),
-      error => error.json())
-    .then((payload) => {
-      if (payload.data) {
-        context.commit('setBankenLadeState', LOADING_STATE.LOADED);
-        context.commit('setBanken', payload.data);
-        context.commit('updateBankEmptyText', 'Leer')
-      } else {
-        context.commit('setBankenLadeState', LOADING_STATE.FAIL);
-        context.commit('setBanken', []);
-        context.commit('updateBankEmptyText', 'Laden fehlgeschlagen')
-      }
-    });
+    let response = await fetch(CONFIG.host + '/api/banken');
+    if(response.ok){
+      let data = await response.json();
+      context.commit('setBankenLadeState', LOADING_STATE.LOADED);
+      context.commit('setBanken', data.data);
+      context.commit('updateBankEmptyText', 'Leer');
+    }else {
+      context.commit('setBankenLadeState', LOADING_STATE.FAIL);
+      context.commit('setBanken', []);
+      context.commit('updateBankEmptyText', 'Laden fehlgeschlagen');
+    }
   },
   saveBank(context){
     Vue.http.post('/api/banken', context.getters.newBank)
