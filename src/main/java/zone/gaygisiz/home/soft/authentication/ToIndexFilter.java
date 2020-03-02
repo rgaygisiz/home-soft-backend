@@ -16,11 +16,11 @@ public class ToIndexFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
     FilterChain filterChain) throws ServletException, IOException {
 
-    if (isToRoute(request)){
-      filterChain.doFilter(request, response);
-    }else{
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/");
+    if (request.getRequestURI().contains("homesoft") ){
+      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.html");
       requestDispatcher.forward(request, response);
+    }else {
+      filterChain.doFilter(request, response);
     }
   }
 
