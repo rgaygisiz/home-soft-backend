@@ -1,4 +1,4 @@
-package zone.gaygisiz.home.soft.person;
+package zone.gaygisiz.home.soft.person.entity;
 
 import lombok.Data;
 
