@@ -1,15 +1,18 @@
 package zone.gaygisiz.home.soft.authentication;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Objects;
+import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class JwtOperator {
@@ -28,26 +31,35 @@ public class JwtOperator {
       .compact();
   }
 
-  public String extractSubject(String jwt){
-    return extractClaim(jwt).getSubject();
+  public Optional<String> extractSubject(String jwt){
+    return extractClaim(jwt)
+      .map(Claims::getSubject);
   }
 
-  public Claims extractClaim(String jwt){
-    return Jwts.parser()
-      .setSigningKey(key)
-      .parseClaimsJws(jwt)
-      .getBody();
+  public Optional<Claims> extractClaim(String jwt){
+    JwtParser jwtParser = Jwts.parser()
+      .setSigningKey(key);
+
+    return Optional.ofNullable(jwt)
+      .filter(StringUtils::hasText)
+      .map(jwtParser::parseClaimsJws)
+      .map(Jwt::getBody);
   }
 
 
   public boolean isValidToken(String jwt, UserDetails userDetails) {
-    String subjectOfToken = extractSubject(jwt);
+    Optional<String> subjectOfToken = extractSubject(jwt);
     boolean isExpired = isTokenExpired(jwt);
-    return userDetails.getUsername().equals(subjectOfToken) && !isExpired;
+    return Optional.ofNullable(userDetails)
+      .map(UserDetails::getUsername)
+      .map(s -> s.equals(subjectOfToken.orElse(null)))
+      .orElse(Boolean.FALSE) && !isExpired;
   }
 
   private boolean isTokenExpired(String jwt) {
-    Date expiration = extractClaim(jwt).getExpiration();
-    return Objects.nonNull(expiration) ? new Date().after(expiration) : Boolean.FALSE;
+    return extractClaim(jwt)
+      .map(Claims::getExpiration)
+      .map(new Date()::after)
+      .orElse(Boolean.FALSE);
   }
 }

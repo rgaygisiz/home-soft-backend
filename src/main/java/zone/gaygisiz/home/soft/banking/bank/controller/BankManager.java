@@ -22,8 +22,14 @@ public class BankManager {
     return bankRepository.findBankByBic(bic);
   }
 
+  public List<Bank> findAll(){
+      return bankRepository
+        .findAll();
+  }
+
   public List<Bank> findAllByBic(List<String> bics){
     List<Bank> banken = bankRepository.findBankByBicIn(bics);
+
     List<String> foundedBanks = banken.stream()
       .map(Bank::getBic)
       .collect(Collectors.toList());

@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import zone.gaygisiz.home.soft.banking.bank.controller.BankManager;
 import zone.gaygisiz.home.soft.banking.bank.entity.Bank;
 import zone.gaygisiz.home.soft.banking.bank.entity.BankRepository;
 import zone.gaygisiz.home.soft.web.ApplicationResponse;
@@ -33,6 +35,9 @@ public class BankEndpoint {
     this.bankRepository = bankRepository;
   }
 
+  @Autowired
+  public BankManager bankManager;
+
   @PostMapping
   public ResponseEntity<ApplicationResponse> saveBank(@RequestBody Bank bank) {
     Bank savedBank = bankRepository.save(bank);
@@ -44,22 +49,18 @@ public class BankEndpoint {
   public ResponseEntity<ApplicationResponse<List<Bank>>> loadBank(@RequestParam Map<String,String> allParams) {
     List<Bank> results = Collections.EMPTY_LIST;
     if(allParams.isEmpty()){
-      results = StreamSupport
-        .stream(bankRepository.findAll().spliterator(), false)
-        .collect(Collectors.toList());
-
+      results = bankManager.findAll();
     } else if (allParams.containsKey(BIC_FRAGMENT)){
-      results = StreamSupport
-        .stream(bankRepository.findAll().spliterator(), false)
-        .filter(bank -> isBankMatch(bank, (String) allParams.get(BIC_FRAGMENT)))
+      results = bankManager.findAll().stream()
+        .filter(bank -> isBankMatch(bank, allParams.get(BIC_FRAGMENT)))
         .collect(Collectors.toList());
     }
     return ResponseEntity.ok(ApplicationResponse.data(results));
   }
 
   private boolean isBankMatch(Bank bank, String fragment) {
-    return Stream.of(bank.getBic(), bank.getBlz(), bank.getName())
-      .anyMatch(s -> s.contains(fragment));
+    return Stream.of(bank.getBic().toLowerCase(), bank.getBlz().toLowerCase(), bank.getName().toLowerCase())
+      .anyMatch(s -> s.contains(fragment.toLowerCase()));
   }
 
 

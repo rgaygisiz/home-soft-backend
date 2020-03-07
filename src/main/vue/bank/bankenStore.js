@@ -54,7 +54,10 @@ const mutations = {
 const actions = {
   async loadBanken(context) {
     context.commit('setBankenLadeState', LOADING_STATE.LOADING);
-    let response = await fetch(CONFIG.host + '/api/banken');
+    let authorization = 'Bearer ' + context.getters.getToken();
+    let response = await fetch(CONFIG.host + '/api/banken', {
+      headers : { Authorization: authorization}
+    });
     if(response.ok){
       let data = await response.json();
       context.commit('setBankenLadeState', LOADING_STATE.LOADED);

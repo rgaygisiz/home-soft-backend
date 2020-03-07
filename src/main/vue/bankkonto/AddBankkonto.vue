@@ -92,7 +92,11 @@
           this.bicLength = this.bankkonto.bicAuswahl.length;
           setTimeout( async () => {
             if(this.bicLength == this.bankkonto.bicAuswahl.length ){
-              let response = await fetch(CONFIG.host + '/api/banken?bicFragment=' + this.bankkonto.bicAuswahl);
+              let authorization = this.buildAuthorization();
+              let path = CONFIG.host + '/api/banken?bicFragment=' + this.bankkonto.bicAuswahl;
+              let response = await fetch(path, {
+                headers : authorization
+              });
               if(response.ok){
                 let data = await response.json();
                 this.bankenToSelect = data.data;
@@ -113,7 +117,11 @@
           this.partnerAuswahlLength = this.bankkonto.partnerAuswahl.length;
           setTimeout(async () => {
             if(this.partnerAuswahlLength == this.bankkonto.partnerAuswahl.length){
-              let response = await fetch(CONFIG.host + '/api/personen?personenFragment=' + this.bankkonto.partnerAuswahl);
+              let authorization = this.buildAuthorization();
+              let path = CONFIG.host + '/api/personen?personenFragment=' + this.bankkonto.partnerAuswahl;
+              let response = await fetch(path,{
+                  headers : authorization
+              });
               if(response.ok){
                 let data = await response.json();
                 data.data.forEach(person => person.fullName = person.lastName+", " +  person.firstName);
@@ -126,6 +134,11 @@
         }else{
           return [];
         }
+      },
+     buildAuthorization() {
+        return {
+          Authorization : 'Bearer ' + this.$store.getters.getToken()
+        };
       }
     }
   }

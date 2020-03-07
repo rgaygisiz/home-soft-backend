@@ -39,7 +39,7 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
       .map(s -> s.replace(BEARER, ""))
       .map(String::trim);
 
-    Optional<String> user = possibleJwt.map(jwtOperator::extractSubject);
+    Optional<String> user = possibleJwt.flatMap(jwtOperator::extractSubject);
 
     if (user.filter(StringUtils::hasText).isPresent() &&
       Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {

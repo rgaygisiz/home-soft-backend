@@ -48,7 +48,10 @@ const mutations = {
 const actions = {
   async loadBankkonten(context){
     context.commit('switchLoadState', LOADING_STATE.LOADING);
-    let response = await fetch(CONFIG.host + REST_PATH);
+    let authorization = 'Bearer ' + context.getters.getToken();
+    let response = await fetch(CONFIG.host + REST_PATH,{
+      headers : { Authorization: authorization}
+    });
     if(response.ok){
       let data = await response.json();
       data.data.forEach( item => item.besitzer.fullName = item.besitzer.firstName + ", " + item.besitzer.lastName);
@@ -62,12 +65,14 @@ const actions = {
     }
   },
   async saveBankkonto(context, bankkonto){
+    let Authorization = 'Bearer ' + context.getters.getToken();
     let response = await fetch(CONFIG.host + REST_PATH, {
       method: 'POST',
       body: JSON.stringify(bankkonto),
       headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+        Authorization
+            // 'Content-Type': 'application/x-www-form-urlencoded',
       }
     });
     if(response.ok){
