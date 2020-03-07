@@ -1,9 +1,12 @@
-package zone.gaygisiz.home.soft.person;
+package zone.gaygisiz.home.soft.person.boundary;
 
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import zone.gaygisiz.home.soft.person.entity.Person;
+import zone.gaygisiz.home.soft.person.entity.PersonRepository;
 import zone.gaygisiz.home.soft.web.ApplicationResponse;
 
 @RestController()
 @RequestMapping(path = "api/personen")
 public class PersonEndpoint {
 
+  public static final String PERSONEN_FRAGMENT = "personenFragment";
   private final PersonRepository personRepository;
 
   @Autowired
@@ -36,10 +42,23 @@ public class PersonEndpoint {
   }
 
   @GetMapping
-  public ResponseEntity<ApplicationResponse<List<Person>>> loadPersonen() {
-    List<Person> results = StreamSupport.stream(personRepository.findAll().spliterator(), false)
+  public ResponseEntity<ApplicationResponse<List<Person>>> loadPersonen(@RequestParam Map<String,String> allParams) {
+    List<Person> results = Collections.EMPTY_LIST;
+    if(allParams.isEmpty()){
+      results = StreamSupport.stream(personRepository.findAll().spliterator(), false)
         .collect(Collectors.toList());
+    }else if( allParams.containsKey(PERSONEN_FRAGMENT)){
+      results = StreamSupport.stream(personRepository.findAll().spliterator(), false)
+        .filter(person -> isPersonMatch(person, (String) allParams.get(PERSONEN_FRAGMENT)) )
+        .collect(Collectors.toList());
+    }
     return ResponseEntity.ok(ApplicationResponse.data(results));
+  }
+
+  private boolean isPersonMatch(Person person, String fragment) {
+    return Stream.of(person.getFirstName(), person.getLastName())
+          .anyMatch(s -> s.contains(fragment));
+
   }
 
   @GetMapping(path = "{id}")

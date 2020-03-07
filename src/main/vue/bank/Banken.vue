@@ -100,7 +100,8 @@
         'resetNewBank'
         ]),
       ...mapActions([
-        'saveBank'
+        'saveBank',
+        'loadBanken'
         ]),
       deleteBank(item, index, event){
         this.$store.dispatch("deletePerson", item.id);

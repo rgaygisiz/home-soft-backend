@@ -1,4 +1,4 @@
-package zone.gaygisiz.home.soft.banking.bank;
+package zone.gaygisiz.home.soft.banking.bank.entity;
 
 import lombok.Data;
 

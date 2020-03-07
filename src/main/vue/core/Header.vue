@@ -2,21 +2,22 @@
   <b-container>
     <b-row>
       <b-col>
-        <ul class="nav nav-pills">
-          <li v-for="route in $router.options.routes">
-            <b-button
-              v-if="route.mainMenueItem"
-              pill
-              variant="outline-primary"
-              size="sm"
-              :to="route.path">{{route.name}}</b-button>
-          </li>
-        </ul>
+        <b-button-group>
+          <b-button
+            v-for="routeItem in getRoutes"
+            v-bind:key="routeItem.path"
+            v-if="routeItem.mainMenueItem"
+            variant="outline-primary"
+            :pressed.sync="routeItem.meta.active"
+            size="sm"
+            :to="routeItem.path">{{routeItem.name}}</b-button>
+        </b-button-group>
       </b-col>
       <b-col>
         <b-button
-          pill v-on:click="loginHandling"
+          v-on:click="loginHandling"
           variant="outline-primary"
+          :pressed.sync="getLoginView.meta.active"
           size="sm" >{{ getLoginLabel }}</b-button>
       </b-col>
     </b-row>
@@ -35,7 +36,14 @@
       ...mapGetters([
         'getLoginLabel',
         'isLogin'
-      ])
+      ]),
+      getRoutes(){
+        return this.$router.options.routes;
+      },
+      getLoginView(){
+        console.log(this.$router.options.routes);
+        return this.$router.options.routes.find(item => item.path == logingView.path);
+      }
     },
     methods: {
       ...mapActions([
