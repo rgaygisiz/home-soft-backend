@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 env:
-  IMAGE_NAME: home.soft.backend
+  IMAGE_NAME: home-soft-backend
 
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build the Docker image
-        run: docker-compose up --build --no-start
+        run: docker build -f Dockerfile.dev . -t ${IMAGE_NAME}
         working-directory: ${{env.working-directory}}
 
 
@@ -39,5 +39,5 @@ jobs:
           [ "$VERSION" == "master" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag ${{IMAGE_NAME}} $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
