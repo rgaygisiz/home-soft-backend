@@ -3,6 +3,8 @@
 - Swagger UI:http://localhost:8080/swagger-ui.html#/
 - Swagger API: http://localhost:8080/v2/api-docs
 
+## empty push
+
 ## start application in dev mode
 
-    docker-compose up 
+    docker-compose up
