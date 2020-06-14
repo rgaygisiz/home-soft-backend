@@ -1,8 +1,9 @@
 FROM maven:slim as maven-build
 WORKDIR '/app'
 COPY pom.xml pom.xml
+RUN ["mvn", "dependency:resolve"]
 COPY src src
-RUN ["mvn", "clean", "install"]
+RUN ["mvn", "clean", "install", "-Dmaven.test.skip=true"]
 
 
 FROM adoptopenjdk:11-jre-hotspot as runenv
