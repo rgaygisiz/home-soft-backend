@@ -1,10 +1,10 @@
 version: '3.4'
 services:
   home-soft-backend:
-    image: home-soft-backend-dev
+    image: home-soft-backend
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       target: runenv
     ports:
       - "8080:8080"

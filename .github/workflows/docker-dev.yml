@@ -1,27 +1,45 @@
 name: Docker Image CI dev
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
+on: [push, pull_request]
 
 env:
   IMAGE_NAME: home-soft-backend
+  working-directory: ./home-soft-backend
 
 jobs:
-
-  build:
-
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  test:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./home-soft-backend
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Where am i
+        working-directory: ${{env.working-directory}}
+        run: |
+          pwd
+          ls -l
+
+      - name: Run tests
+        working-directory: ${{env.working-directory}}
+        run: |
+          if [ -f docker-compose.test.yml ]; then
+            docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml run sut
+          else
+            docker build . --file Dockerfile
+          fi
+
+  push:
+    needs: test
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Build the Docker image
-        run: docker-compose up --build --no-start
+        run: docker-compose build $IMAGE_NAME
         working-directory: ${{env.working-directory}}
 
 
@@ -33,7 +51,7 @@ jobs:
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
 
           # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/#\(.*\),\1,')
 
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
@@ -44,5 +62,5 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
