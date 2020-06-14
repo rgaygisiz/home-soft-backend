@@ -17,7 +17,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Where am i
-        run: pwd
+        run: |
+          pwd
+          ls -l
 
       - name: Run tests
         run: |
