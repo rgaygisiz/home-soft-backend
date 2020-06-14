@@ -10,8 +10,7 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./home-soft-backend
+
 
     steps:
       - uses: actions/checkout@v2
