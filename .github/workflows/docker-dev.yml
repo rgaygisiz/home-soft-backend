@@ -1,10 +1,6 @@
 name: Docker Image CI dev
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
+on: [push, pull_request]
 
 env:
   IMAGE_NAME: home-soft-backend
